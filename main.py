@@ -1,6 +1,8 @@
 from pyrogram import Client
 import sqlite3
 
+import config
+
 # Target channel/supergroup
 TARGET = -1001859981405
 
@@ -12,7 +14,7 @@ cursor = conn.cursor()
 
 async def main():
     async with app:
-        async for member in app.get_chat_members(TARGET):
+        async for member in app.get_chat_members(config.chat_dzen):
             user_id = member.user.id
             username = member.user.username
             join_date = member.joined_date
