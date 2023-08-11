@@ -1,10 +1,16 @@
-from pyrogram import Client
+from pyrogram import Client, filters
 import sqlite3
+
 import config
 
 app = Client('my_account')
 conn = sqlite3.connect('users.db')
 cursor = conn.cursor()
+
+
+@app.on_raw_update()
+def raw(client, update, users, chats):
+    print(update)
 
 
 async def main():
@@ -46,4 +52,5 @@ async def main():
                                 phone_number, restriction, mention, join_date))
         conn.commit()
 
-app.run(main())
+
+app.run()
