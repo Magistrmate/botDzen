@@ -17,6 +17,6 @@ async def main():
                 cursor.execute('INSERT INTO users (user_id, username, join_date) VALUES (?,?,?)', (user_id,
                                                                                                    username, join_date))
         conn.commit()
-        print(member.joined_date)
+        # print(member.joined_date)
 
 app.run(main())
