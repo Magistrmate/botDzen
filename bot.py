@@ -1,13 +1,33 @@
-import telebot
 import config
+import logging
+import sqlite3
 
-bot = telebot.TeleBot(config.TOKEN)
+from aiogram import Bot, Dispatcher, executor, types
+
+try:
+    conn = sqlite3.connect('accountant.db')
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT OR IGNORE INTO 'users' ('user_id') VALUES (?)", (1000,))
+
+    users = cursor.execute("SELECT * FROM 'users'")
+    print(users.fetchall())
+
+    conn.commit()
+    
+except sqlite3.Error as error:
+    print("Error", error)
 
 
-@bot.message_handler(content_types=['text'])
-def lake(message):
-    bot.send_message(message.chat.id, message.text)
+logging.basicConfig(level=logging.INFO)
+
+bot = Bot(token=config.TOKEN)
+dp = Dispatcher(bot)
 
 
-# RUN
-bot.polling(none_stop=True)
+@dp.message_handler()
+async def echo(message: types.Message):
+    await message.answer(message.text)
+
+if __name__ == "__main__":
+    executor.start_polling(dp, skip_updates=True)
