@@ -1,16 +1,22 @@
+from pyrogram import Client, filters
 import config
-import sqlite3
 
-from aiogram import Bot, Dispatcher, executor, types
-
-bot = Bot(token=config.token)
-dp = Dispatcher(bot)
+bot = Client('my_bot')
 
 
-@dp.message_handler()
-async def echo(message: types.Message):
-    await message.answer(message.text)
-    print('ok')
+# @bot.on_message(filters.text & filters.private)
+# async def echo(client, message):
+#     await message.reply(message.text)
 
-if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+
+@bot.on_chat_member_updated(filters.chat(config.chat_group))
+def okay(client, chat_member_update):
+    print(client, chat_member_update)
+
+
+@bot.on_user_status(filters.chat(config.chat_group))
+def new_channel_post(client, user):
+    print(client, user)
+
+
+bot.run()
