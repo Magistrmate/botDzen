@@ -8,7 +8,7 @@ conn = sqlite3.connect('users.db')
 cursor = conn.cursor()
 
 
-@app.on_message(filters.text & filters.private)
+# @app.on_message(filters.text & filters.private)
 # async def main(client, message):
 #     async for member in app.get_chat_members(config.chat_dzen):
 #         if member.user.is_self or member.user.is_bot is False:
@@ -46,7 +46,20 @@ cursor = conn.cursor()
 #                             last_online_date, next_offline_date, username, language_code, dc_id,
 #                             phone_number, photo, restriction, mention, join_date))
 #     conn.commit()
-async def echo(client, message):
-    await message.reply(message.text)
-app.run()
+
+
+async def main():
+    async with app:
+        async for member in app.get_chat_members(config.chat_dzen):
+            print(member)
+            await app.download_media(member.user.photo.small_file_id)
+            await app.download_media(member.user.photo.big_file_id)
+
+        user_id = 515964210
+        result = cursor.execute('SELECT photo FROM users WHERE user_id = ?', (user_id,))
+        print(result.fetchone()[0])
+        # AQADAgADqacxGzL9wB4AEAMAAzL9wB4ABCQXtuS5Qe8GAAQeBA
+        await app.send_photo("me", 'AQADAgAD0KcxG8KFdgwAEAMAA8KFdgwABCDyoQrKukmUAAQeBA')
+
+app.run(main())
 # print('Launch')
