@@ -69,46 +69,46 @@ async def main():
                     mention_old = result_l[22]
                     if first_name != first_name_old:
                         update_base(user_id, 'first_name', first_name, first_name_old)
-                    # if last_name != last_name_old:
-                    #     update_base(user_id, first_name, first_name_old)
-                    # if username != username_old:
-                    #     update_base(user_id, username, username_old)
-                    # if join_date != join_date_old:
-                    #     update_base(user_id, join_date, join_date_old)
-                    # if is_contact != is_contact_old:
-                    #     update_base(user_id, is_contact, is_contact_old)
-                    # if is_mutual_contact != is_mutual_contact_old:
-                    #     update_base(user_id, is_mutual_contact, is_mutual_contact_old)
-                    # if is_deleted != is_deleted_old:
-                    #     update_base(user_id, is_deleted, is_deleted_old)
-                    # if is_verified != is_verified_old:
-                    #     update_base(user_id, is_verified, is_verified_old)
-                    # if is_restricted != is_restricted_old:
-                    #     update_base(user_id, is_restricted, is_restricted_old)
-                    # if is_scam != is_scam_old:
-                    #     update_base(user_id, is_scam, is_scam_old)
-                    # if is_fake != is_fake_old:
-                    #     update_base(user_id, is_fake, is_fake_old)
-                    # if is_premium != is_premium_old:
-                    #     update_base(user_id, is_premium, is_premium_old)
-                    # if status != status_old:
-                    #     update_base(user_id, status, status_old)
-                    # if last_online_date != last_online_date_old:
-                    #     update_base(user_id, last_online_date, last_online_date_old)
-                    # if next_offline_date != next_offline_date_old:
-                    #     update_base(user_id, next_offline_date, next_offline_date_old)
-                    # if language_code != language_code_old:
-                    #     update_base(user_id, language_code, language_code_old)
-                    # if dc_id != dc_id_old:
-                    #     update_base(user_id, dc_id, dc_id_old)
-                    # if phone_number != phone_number_old:
-                    #     update_base(user_id, phone_number, phone_number_old)
-                    # if photo != photo_old:
-                    #     update_base(user_id, photo, photo_old)
-                    # if restriction != restriction_old:
-                    #     update_base(user_id, restriction, restriction_old)
-                    # if mention != mention_old:
-                    #     update_base(user_id, mention, mention_old)
+                    if last_name != last_name_old:
+                        update_base(user_id, 'last_name', last_name, last_name_old)
+                    if username != username_old:
+                        update_base(user_id, 'username', username, username_old)
+                    if join_date != join_date_old:
+                        update_base(user_id, 'join_date', join_date, join_date_old)
+                    if is_contact != is_contact_old:
+                        update_base(user_id, 'is_contact', is_contact, is_contact_old)
+                    if is_mutual_contact != is_mutual_contact_old:
+                        update_base(user_id, 'is_mutual_contact', is_mutual_contact, is_mutual_contact_old)
+                    if is_deleted != is_deleted_old:
+                        update_base(user_id, 'is_deleted', is_deleted, is_deleted_old)
+                    if is_verified != is_verified_old:
+                        update_base(user_id, 'is_verified', is_verified, is_verified_old)
+                    if is_restricted != is_restricted_old:
+                        update_base(user_id, 'is_restricted', is_restricted, is_restricted_old)
+                    if is_scam != is_scam_old:
+                        update_base(user_id, 'is_scam', is_scam, is_scam_old)
+                    if is_fake != is_fake_old:
+                        update_base(user_id, 'is_fake', is_fake, is_fake_old)
+                    if is_premium != is_premium_old:
+                        update_base(user_id, 'is_premium', is_premium, is_premium_old)
+                    if status != status_old:
+                        update_base(user_id, 'status', status, status_old)
+                    if last_online_date != last_online_date_old:
+                        update_base(user_id, 'last_online_date', last_online_date, last_online_date_old)
+                    if next_offline_date != next_offline_date_old:
+                        update_base(user_id, 'next_offline_date', next_offline_date, next_offline_date_old)
+                    if language_code != language_code_old:
+                        update_base(user_id, 'language_code', language_code, language_code_old)
+                    if dc_id != dc_id_old:
+                        update_base(user_id, 'dc_id', dc_id, dc_id_old)
+                    if phone_number != phone_number_old:
+                        update_base(user_id, 'phone_number', phone_number, phone_number_old)
+                    if photo != photo_old:
+                        update_base(user_id, 'photo', photo, photo_old)
+                    if restriction != restriction_old:
+                        update_base(user_id, 'restriction', restriction, restriction_old)
+                    if mention != mention_old:
+                        update_base(user_id, 'mention', mention, mention_old)
                 else:
                     cursor.execute('INSERT INTO users (user_id, is_contact, is_mutual_contact, is_deleted, '
                                    'is_verified, is_restricted, is_scam, is_fake, is_premium, first_name, last_name, '
