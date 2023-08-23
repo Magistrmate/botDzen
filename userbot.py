@@ -16,7 +16,7 @@ def update_base(user_id, column_name, change_parameter, change_parameter_old):
 
 
 async def main():
-    async with app:
+    async with (app):
         async for member in app.get_chat_members(config.chat_dzen):
             if member.user.is_self or member.user.is_bot is False:
                 user_id = member.user.id
@@ -94,9 +94,11 @@ async def main():
                         update_base(user_id, 'is_premium', is_premium, is_premium_old)
                     if status != status_old:
                         update_base(user_id, 'status', status, status_old)
-                    if last_online_date != last_online_date_old:
+                    if last_online_date != last_online_date_old and (last_online_date
+                                                                     and last_online_date_old) != 'None':
                         update_base(user_id, 'last_online_date', last_online_date, last_online_date_old)
-                    if next_offline_date != next_offline_date_old:
+                    if next_offline_date != next_offline_date_old and (next_offline_date and
+                                                                       next_offline_date_old) != 'None':
                         update_base(user_id, 'next_offline_date', next_offline_date, next_offline_date_old)
                     if language_code != language_code_old:
                         update_base(user_id, 'language_code', language_code, language_code_old)
