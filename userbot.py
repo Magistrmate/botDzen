@@ -31,8 +31,8 @@ async def main():
                 first_name = member.user.first_name
                 last_name = member.user.last_name
                 status = member.user.status.value
-                last_online_date = member.user.last_online_date
-                next_offline_date = member.user.next_offline_date
+                last_online_date = str(member.user.last_online_date)
+                next_offline_date = str(member.user.next_offline_date)
                 username = member.user.username
                 language_code = member.user.language_code
                 dc_id = member.user.dc_id
@@ -42,9 +42,10 @@ async def main():
                     photo = member.user.photo.big_file_id
                 restriction = member.user.restrictions
                 mention = member.user.mention
-                join_date = member.joined_date
+                join_date = str(member.joined_date)
                 result = cursor.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
                 result_l = result.fetchone()
+                print(result_l, member.user)
                 if result_l is not None:
                     first_name_old = result_l[2]
                     last_name_old = result_l[3]
