@@ -4,7 +4,7 @@ import sqlite3
 import config
 
 app = Client('my_account')
-conn = sqlite3.connect('users.db')
+conn = sqlite3.connect('botDzenDataBase.db')
 cursor = conn.cursor()
 
 
@@ -17,7 +17,9 @@ def update_base(user_id, column_name, change_parameter, change_parameter_old):
 
 async def main():
     async with (app):
+        member_list = []
         async for member in app.get_chat_members(config.chat_dzen):
+            member_list.append(member.user.id)
             user_id = member.user.id
             is_deleted = member.user.is_deleted
             if is_deleted:
@@ -49,7 +51,6 @@ async def main():
                 join_date = str(member.joined_date)
                 result = cursor.execute('SELECT * FROM users WHERE user_id = ?', (user_id,))
                 result_l = result.fetchone()
-                print(result_l, member.user)
                 if result_l is not None:
                     first_name_old = result_l[2]
                     last_name_old = result_l[3]
@@ -126,23 +127,17 @@ async def main():
                                     is_restricted, is_scam, is_fake, is_premium, first_name, last_name, status,
                                     last_online_date, next_offline_date, username, language_code, dc_id,
                                     phone_number, photo, restriction, mention, join_date))
-        conn.commit()
-
-
-# async def main():
-#     async with app:
-#         name = 'Danil'
-#         idTwo = '2'
-#         cursor.execute('UPDATE users set first_name = ? WHERE id = ?', (name, idTwo))
-#         # cursor.execute('INSERT INTO users (user_id, is_contact, is_mutual_contact, is_deleted, is_verified, '
-#         #                'is_restricted, is_scam, is_fake, is_premium, first_name, last_name, status, '
-#         #                'last_online_date, next_offline_date, username, language_code, dc_id, '
-#         #                'phone_number, photo, restriction, mention, join_date VALUES '
-#         #                '(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-#         #                (user_id, is_contact, is_mutual_contact, is_deleted, is_verified,
-#         #                 is_restricted, is_scam, is_fake, is_premium, first_name, last_name, status,
-#         #                 last_online_date, next_offline_date, username, language_code, dc_id,
-#         #                 phone_number, photo, restriction, mention, join_date))
-#     conn.commit()
+    cursor.execute('SELECT user_id FROM users')
+    result = cursor.fetchall()
+    for user_id in result:
+        member_user = False
+        for member in member_list:
+            if user_id[0] == member:
+                member_user = True
+        if member_user is False:
+            cursor.execute('INSERT INTO leave_users SELECT * FROM users WHERE user_id = ?',
+                           (user_id[0],))
+            cursor.execute('DELETE FROM users WHERE user_id = ?', (user_id[0],))
+    conn.commit()
 
 app.run(main())
