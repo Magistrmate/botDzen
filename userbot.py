@@ -18,11 +18,15 @@ def update_base(user_id, column_name, change_parameter, change_parameter_old):
 async def main():
     async with (app):
         async for member in app.get_chat_members(config.chat_dzen):
-            if member.user.is_self or member.user.is_bot is False:
-                user_id = member.user.id
+            user_id = member.user.id
+            is_deleted = member.user.is_deleted
+            if is_deleted:
+                cursor.execute('INSERT INTO delete_users SELECT * FROM users WHERE user_id = ?',
+                               (user_id,))
+                cursor.execute('DELETE FROM users WHERE user_id = ?', (user_id,))
+            elif member.user.is_self or member.user.is_bot is False:
                 is_contact = member.user.is_contact
                 is_mutual_contact = member.user.is_mutual_contact
-                is_deleted = member.user.is_deleted
                 is_verified = member.user.is_verified
                 is_restricted = member.user.is_restricted
                 is_scam = member.user.is_scam
