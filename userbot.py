@@ -133,7 +133,7 @@ async def main():
         member_user = False
         for member in member_list:
             if user_id[0] == member:
-                member_user = True
+                member_user = True #fl
         if member_user is False:
             cursor.execute('INSERT INTO leave_users SELECT * FROM users WHERE user_id = ?',
                            (user_id[0],))
