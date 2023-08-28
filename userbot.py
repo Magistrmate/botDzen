@@ -128,34 +128,29 @@ async def main():
         #                             last_online_date, next_offline_date, username, language_code, dc_id,
         #                             phone_number, photo, restriction, mention, join_date))
         async for message in app.get_chat_history(config.chat_dzen):
-            # print(message.from_user.first_name, message.from_user.id, message.date, message.reply_to_message_id,
-            #       message.text)
-            if message.from_user is None:
-                user_id = 0
-            else:
+            # print(message.date, message.reply_to_message_id, message.text)
+            if message.reply_to_message_id is not None:
                 user_id = message.from_user.id
-            if message.reply_to_top_message_id is None:
-                theme_id = message.reply_to_message_id
-            else:
-                theme_id = message.reply_to_top_message_id
-            if theme_id == 800:
-                theme_name = 'Помощь коллеге'
-            elif theme_id == 226:
-                theme_name = 'Просьбы о помощи'
-            elif theme_id == 1:
-                theme_name = 'Уведомления'
-            elif theme_id == 9:
-                theme_name = 'Отчеты о проделанной работе'
-            elif theme_id == 6:
-                theme_name = 'Светские беседы'
-            elif theme_id == 4:
-                theme_name = 'Ссылки на каналы'
-            else:
-                theme_name = 0
-            message_text = message.text
-            date = message.date
-            cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, date) VALUES '
-                           '(?,?,?,?)', (user_id, theme_name, message_text, date,))
+                if message.reply_to_top_message_id is None:
+                    theme_id = message.reply_to_message_id
+                else:
+                    theme_id = message.reply_to_top_message_id
+                if theme_id == 800:
+                    theme_name = 'Помощь коллеге'
+                elif theme_id == 226:
+                    theme_name = 'Просьбы о помощи'
+                elif theme_id == 1:
+                    theme_name = 'Уведомления'
+                elif theme_id == 9:
+                    theme_name = 'Отчеты о проделанной работе'
+                elif theme_id == 6:
+                    theme_name = 'Светские беседы'
+                elif theme_id == 4:
+                    theme_name = 'Ссылки на каналы'
+                message_text = message.text
+                date = message.date
+                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, date) VALUES '
+                               '(?,?,?,?)', (user_id, theme_name, message_text, date,))
     # cursor.execute('SELECT user_id FROM users')
     # result = cursor.fetchall()
     # for user_id in result:
