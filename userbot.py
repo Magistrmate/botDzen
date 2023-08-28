@@ -140,7 +140,7 @@ async def main():
                 elif theme_id == 226:
                     theme_name = 'Просьбы о помощи'
                 elif theme_id == 1:
-                    theme_name = 'Уведомления'
+                    theme_name = 'Уведомления'#f
                 elif theme_id == 9:
                     theme_name = 'Отчеты о проделанной работе'
                 elif theme_id == 6:
