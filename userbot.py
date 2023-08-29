@@ -140,7 +140,7 @@ async def main():
                 elif theme_id == 226:
                     theme_name = 'Просьбы о помощи'
                 elif theme_id == 1:
-                    theme_name = 'Уведомления'#f
+                    theme_name = 'Уведомления'
                 elif theme_id == 9:
                     theme_name = 'Отчеты о проделанной работе'
                 elif theme_id == 6:
@@ -148,9 +148,13 @@ async def main():
                 elif theme_id == 4:
                     theme_name = 'Ссылки на каналы'
                 message_text = message.text
+                if message_text is None:
+                    message_media = message.media.value
+                else:
+                    message_media = ''
                 date = message.date
-                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, date) VALUES '
-                               '(?,?,?,?)', (user_id, theme_name, message_text, date,))
+                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, message_media, date) '
+                               'VALUES (?,?,?,?,?)', (user_id, theme_name, message_text, message_media, date,))
     # cursor.execute('SELECT user_id FROM users')
     # result = cursor.fetchall()
     # for user_id in result:
