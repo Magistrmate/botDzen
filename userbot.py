@@ -135,26 +135,42 @@ async def main():
                     theme_id = message.reply_to_message_id
                 else:
                     theme_id = message.reply_to_top_message_id
-                if theme_id == 800:
-                    theme_name = 'Помощь коллеге'
-                elif theme_id == 226:
-                    theme_name = 'Просьбы о помощи'
-                elif theme_id == 1:
-                    theme_name = 'Уведомления'
-                elif theme_id == 9:
-                    theme_name = 'Отчеты о проделанной работе'
-                elif theme_id == 6:
-                    theme_name = 'Светские беседы'
-                elif theme_id == 4:
-                    theme_name = 'Ссылки на каналы'
+                match theme_id:
+                    case 800:
+                        theme_name = 'Помощь коллеге'
+                    case 226:
+                        theme_name = 'Просьбы о помощи'
+                    case 1:
+                        theme_name = 'Уведомления'
+                    case 9:
+                        theme_name = 'Отчеты о проделанной работе'
+                    case 6:
+                        theme_name = 'Светские беседы'
+                    case 4:
+                        theme_name = 'Ссылки на каналы'
                 message_text = message.text
                 if message_text is None:
                     message_media = message.media.value
+                    message_text = message.caption
                 else:
                     message_media = ''
+                match message_media:
+                    case 'photo':
+                        media_link = message.photo.file_id
+                    case 'voice':
+                        media_link = message.voice.file_id
+                    case 'video':
+                        media_link = message.video.file_id
+                    case 'document':
+                        media_link = message.document.file_id
+                    case 'poll':
+                        media_link = message.poll.id
+                    case _:
+                        media_link = ''
                 date = message.date
-                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, message_media, date) '
-                               'VALUES (?,?,?,?,?)', (user_id, theme_name, message_text, message_media, date,))
+                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, message_media, '
+                               'media_link, date) VALUES (?,?,?,?,?,?)', (user_id, theme_name, message_text,
+                                                                          message_media, media_link, date,))
     # cursor.execute('SELECT user_id FROM users')
     # result = cursor.fetchall()
     # for user_id in result:
