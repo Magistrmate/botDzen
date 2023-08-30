@@ -1,6 +1,5 @@
 from pyrogram import Client
 import sqlite3
-
 import config
 
 app = Client('my_account')
@@ -128,7 +127,6 @@ async def main():
         #                             last_online_date, next_offline_date, username, language_code, dc_id,
         #                             phone_number, photo, restriction, mention, join_date))
         async for message in app.get_chat_history(config.chat_dzen):
-            # print(message.date, message.reply_to_message_id, message.text)
             if message.reply_to_message_id is not None:
                 user_id = message.from_user.id
                 if message.reply_to_top_message_id is None:
