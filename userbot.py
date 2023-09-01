@@ -147,9 +147,16 @@ async def main():
                     case 4:
                         theme_name = 'Ссылки на каналы'
                 message_text = message.text
+                message_entities = ''
+                if message.entities is not None:
+                    message_entities = message.entities[0].type.name
+                    print(message.entities)
                 if message_text is None:
                     message_media = message.media.value
                     message_text = message.caption
+                    if message.caption_entities is not None:
+                        message_entities = message.caption_entities[0].type.name
+                        print(message.entities)
                 else:
                     message_media = ''
                 match message_media:
@@ -166,9 +173,10 @@ async def main():
                     case _:
                         media_link = ''
                 date = message.date
-                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, message_media, '
-                               'media_link, date) VALUES (?,?,?,?,?,?)', (user_id, theme_name, message_text,
-                                                                          message_media, media_link, date,))
+                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, message_media,'
+                               'media_link, message_entities, date) VALUES (?,?,?,?,?,?,?)',
+                               (user_id, theme_name, message_text, message_media, media_link,
+                                message_entities, date,))
     # cursor.execute('SELECT user_id FROM users')
     # result = cursor.fetchall()
     # for user_id in result:
