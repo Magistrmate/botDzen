@@ -15,24 +15,18 @@ async def main():
                     theme_id = message.reply_to_message_id
                 else:
                     theme_id = message.reply_to_top_message_id
-                theme_name = theme_id
-                # match theme_id:
-                #     case 800:
-                #         theme_name = 'Помощь коллеге'
-                #     case 226:
-                #         theme_name = 'Просьбы о помощи'
-                #     case 1:
-                #         theme_name = 'Уведомления'
-                #     case 9:
-                #         theme_name = 'Отчеты о проделанной работе'
-                #     case 6:
-                #         theme_name = 'Светские беседы'
-                #     case 4:
-                #         theme_name = 'Ссылки на каналы'
+                message_id = message.media_group_id
                 message_text = message.text
+                message_entities = ''
+                if message.entities is not None:
+                    message_entities = message.entities[0].type.name
+                    message_text = message.text.markdown
                 if message_text is None:
                     message_media = message.media.value
                     message_text = message.caption
+                    if message.caption_entities is not None:
+                        message_entities = message.caption_entities[0].type.name
+                        message_text = message.caption.markdown
                 else:
                     message_media = ''
                 match message_media:
@@ -49,9 +43,10 @@ async def main():
                     case _:
                         media_link = ''
                 date = message.date
-                cursor.execute('INSERT INTO messages (user_id, theme_name, message_text, message_media, '
-                               'media_link, date) VALUES (?,?,?,?,?,?)', (user_id, theme_name, message_text,
-                                                                          message_media, media_link, date,))
+                cursor.execute('INSERT INTO messages (user_id, theme_name, message_id, message_text, message_media,'
+                               'media_link, message_entities, date) VALUES (?,?,?,?,?,?,?,?)',
+                               (user_id, theme_id, message_id, message_text, message_media, media_link,
+                                message_entities, date,))
     conn.commit()
 
 
