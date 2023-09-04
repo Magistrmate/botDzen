@@ -161,7 +161,7 @@ async def record(client, message):
             message_entities = message.caption_entities[0].type.name
             message_text = message.caption.markdown
     else:
-        message_media = ''
+        message_media = ''  # cat
     match message_media:
         case 'photo':
             media_link = message.photo.file_id
