@@ -181,17 +181,17 @@ async def record(client, message):
                    'VALUES (?,?,?,?,?,?,?,?,?)', (user_id, theme_name, message_id,
                                                   message_media_group_id, message_text, message_media,
                                                   media_link, message_entities, date,))
-    # cursor.execute('SELECT user_id FROM users')
-    # result = cursor.fetchall()
-    # for user_id in result:
-    #     member_user = False
-    #     for member in member_list:
-    #         if user_id[0] == member:
-    #             member_user = True
-    #     if member_user is False:
-    #         cursor.execute('INSERT INTO leave_users SELECT * FROM users WHERE user_id = ?',
-    #                        (user_id[0],))
-    #         cursor.execute('DELETE FROM users WHERE user_id = ?', (user_id[0],))
+    cursor.execute('SELECT user_id FROM users')
+    result = cursor.fetchall()
+    for user_id in result:
+        member_user = False
+        for member in member_list:
+            if user_id[0] == member:
+                member_user = True
+        if member_user is False:
+            cursor.execute('INSERT INTO leave_users SELECT * FROM users WHERE user_id = ?',
+                           (user_id[0],))
+            cursor.execute('DELETE FROM users WHERE user_id = ?', (user_id[0],))
     conn.commit()
 
 
