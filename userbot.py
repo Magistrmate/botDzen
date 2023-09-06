@@ -14,7 +14,7 @@ def update_base(user_id, column_name, change_parameter, change_parameter_old):
                    (change_parameter, user_id))
 
 
-@app.on_message(filters.chat(config.chat_dzen))
+@app.on_message(filters.chat(config.chat_group))
 async def record(client, message):
     print(client)
     member_list = []
